@@ -53,7 +53,10 @@
         android:layout_height="wrap_content"
         android:text="@string/history_button_text"/>
 
-
+    <Spinner
+        android:id="@+id/nrspinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 
 </LinearLayout>

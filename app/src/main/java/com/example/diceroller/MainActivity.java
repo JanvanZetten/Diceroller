@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Button;
+import android.widget.Spinner;
 
 
 import java.util.ArrayList;
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageView imgFirst;
     private ImageView imgSecond;
+    private Spinner spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +43,12 @@ public class MainActivity extends AppCompatActivity {
 
         setupViewDependencies();
         loadState(savedInstanceState);
+
+        spinner= findViewById(R.id.nrspinner);
+        Integer[] items = new Integer[]{1,2,3,4,5,6};
+        ArrayAdapter<Integer> adapter =
+                new ArrayAdapter<Integer>(this,android.R.layout.simple_spinner_item, items);
+        spinner.setAdapter(adapter);
     }
 
     @Override
