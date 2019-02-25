@@ -20,12 +20,18 @@ public class HistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.history_view);
 
-        // Reference setup
+        refrenceSetup();
+        actionsSetup();
+        setInitalState();
+    }
+
+    private void refrenceSetup(){
         btnGoBack = findViewById(R.id.btnBack);
         btnClear = findViewById(R.id.btnClear);
         historyView = findViewById(R.id.lstvwHistory);
+    }
 
-        // Actions setup
+    private void actionsSetup(){
         btnClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -38,8 +44,9 @@ public class HistoryActivity extends AppCompatActivity {
                 goBack();
             }
         });
+    }
 
-        // Initial state
+    private void setInitalState(){
         historyItems = (HistoryItem[]) getIntent().getSerializableExtra("history");
         fillHistoryListView();
     }
