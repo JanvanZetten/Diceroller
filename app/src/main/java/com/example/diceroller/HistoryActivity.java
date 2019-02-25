@@ -1,5 +1,6 @@
 package com.example.diceroller;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -12,31 +13,53 @@ public class HistoryActivity extends AppCompatActivity {
     Button btnClear;
     ListView historyView;
     HistoryItem[] historyItems;
+    boolean cleared = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.history_view);
+
+        // Reference setup
         btnGoBack = findViewById(R.id.btnBack);
         btnClear = findViewById(R.id.btnClear);
-
         historyView = findViewById(R.id.lstvwHistory);
 
+        // Actions setup
+        btnClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clearList();
+            }
+        });
         btnGoBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                goBack();
             }
         });
 
+        // Initial state
+        historyItems = (HistoryItem[]) getIntent().getSerializableExtra("history");
         fillHistoryListView();
-
     }
 
     private void fillHistoryListView() {
-        historyItems = (HistoryItem[]) getIntent().getSerializableExtra("history");
         historyView.setAdapter(new ArrayAdapter<HistoryItem>(this, android.R.layout.simple_list_item_1, historyItems));
-
     }
 
+    private void clearList(){
+        if (!cleared) {
+            cleared = true;
+            historyItems = new HistoryItem[0];
+            fillHistoryListView();
+        }
+    }
+
+    private void goBack(){
+        Intent rslt_int = new Intent();
+        rslt_int.putExtra("cleared", cleared);
+        setResult(RESULT_OK, rslt_int);
+        finish();
+    }
 }
