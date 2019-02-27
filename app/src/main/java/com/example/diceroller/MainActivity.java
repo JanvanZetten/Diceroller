@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Button;
+import android.widget.NumberPicker;
 import android.widget.Spinner;
 
 
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageView imgFirst;
     private ImageView imgSecond;
-    private Spinner spinner;
+    private NumberPicker nrPick;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +47,9 @@ public class MainActivity extends AppCompatActivity {
         setupViewDependencies();
         loadState(savedInstanceState);
 
-        spinner= findViewById(R.id.nrspinner);
-        Integer[] items = new Integer[]{1,2,3,4,5,6};
-        ArrayAdapter<Integer> adapter =
-                new ArrayAdapter<Integer>(this,android.R.layout.simple_spinner_item, items);
-        spinner.setAdapter(adapter);
+        nrPick = findViewById(R.id.nrPicker);
+        nrPick.setMinValue(1);
+        nrPick.setMaxValue(6);
     }
 
     @Override
