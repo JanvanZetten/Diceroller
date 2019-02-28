@@ -12,50 +12,38 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center">
-        <ImageView
-            android:id="@+id/imgFirst"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_marginHorizontal="3dp"
-            android:layout_marginTop="3dp"/>
-        <ImageView
-            android:id="@+id/imgSecond"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_marginHorizontal="3dp"
-            android:layout_marginTop="3dp"/>/>
+        android:gravity="center"
+        android:id="@+id/llDicesUpper"
+        android:layout_marginTop="3dp">
     </LinearLayout>
-
-    <Button
-        android:id="@+id/btnRoll"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Roll"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="History:"/>
 
     <LinearLayout
-        android:id="@+id/llHistoryView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal">
-
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:id="@+id/llDicesLower"
+        android:layout_marginTop="3dp">
     </LinearLayout>
-
-    <Button
-        android:id="@+id/btnGoToHistory"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/history_button_text"/>
 
     <NumberPicker
         android:id="@+id/nrPicker"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+       />
 
+    <Button
+        android:id="@+id/btnRoll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Roll"
+        android:layout_gravity="bottom"/>
+
+    <Button
+        android:id="@+id/btnGoToHistory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/history_button_text"
+        android:layout_gravity="bottom"/>
 </LinearLayout>

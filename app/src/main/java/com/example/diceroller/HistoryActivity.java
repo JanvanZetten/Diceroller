@@ -20,12 +20,31 @@ public class HistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.history_view);
 
-        refrenceSetup();
+        referenceSetup();
         actionsSetup();
-        setInitalState();
+        setInitialState();
+        loadState(savedInstanceState);
+
     }
 
-    private void refrenceSetup(){
+    private void loadState(Bundle savedInstanceState) {
+        if (savedInstanceState != null){
+            cleared = savedInstanceState.getBoolean("cleared");
+            if (cleared){
+                historyItems = new HistoryItem[0];
+                fillHistoryListView();
+            }
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle state)
+    {
+        super.onSaveInstanceState(state);
+        state.putBoolean("cleared", cleared);
+    }
+
+    private void referenceSetup(){
         btnGoBack = findViewById(R.id.btnBack);
         btnClear = findViewById(R.id.btnClear);
         historyView = findViewById(R.id.lstvwHistory);
@@ -46,13 +65,13 @@ public class HistoryActivity extends AppCompatActivity {
         });
     }
 
-    private void setInitalState(){
+    private void setInitialState(){
         historyItems = (HistoryItem[]) getIntent().getSerializableExtra("history");
         fillHistoryListView();
     }
 
     private void fillHistoryListView() {
-        historyView.setAdapter(new ArrayAdapter<HistoryItem>(this, android.R.layout.simple_list_item_1, historyItems));
+        historyView.setAdapter(new HistoryAdapter(this, historyItems));
     }
 
     private void clearList(){

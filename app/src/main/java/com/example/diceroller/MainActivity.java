@@ -6,11 +6,11 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
-import android.widget.Spinner;
 
 
 import java.util.ArrayList;
@@ -31,13 +31,17 @@ public class MainActivity extends AppCompatActivity {
     private final LayoutHelper layoutHelper = new LayoutHelper(this);
     private final Random random = new Random();
 
-    private int imgOneId = -1;
-    private int imgTwoId = -1;
+//    private int imgOneId = -1;
+//    private int imgTwoId = -1;
     private List<HistoryItem> history;
 
-    private ImageView imgFirst;
-    private ImageView imgSecond;
+//    private ImageView imgFirst;
+//    private ImageView imgSecond;
+    private ImageView[] diceImageViews;
     private NumberPicker nrPick;
+    private LinearLayout llDiceUpper;
+    private LinearLayout llDiceLower;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,31 +51,28 @@ public class MainActivity extends AppCompatActivity {
         setupViewDependencies();
         loadState(savedInstanceState);
 
-        nrPick = findViewById(R.id.nrPicker);
-        nrPick.setMinValue(1);
-        nrPick.setMaxValue(6);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle state)
     {
         super.onSaveInstanceState(state);
-        state.putInt(IMAGE_ONE_ID, imgOneId);
-        state.putInt(IMAGE_TWO_ID, imgTwoId);
-        state.putSerializable(HISTORY, history.toArray());
+        //state.putInt(IMAGE_ONE_ID, imgOneId);
+        //state.putInt(IMAGE_TWO_ID, imgTwoId);
+        state.putSerializable(HISTORY, history.toArray(new HistoryItem[0]));
     }
 
     private void loadState(Bundle savedInstanceState) {
         if (savedInstanceState != null)
         {
-            imgOneId = savedInstanceState.getInt(IMAGE_ONE_ID);
-            imgTwoId = savedInstanceState.getInt(IMAGE_TWO_ID);
-            if (imgOneId > 0) {
-                imgFirst.setImageResource(imgOneId);
-            }
-            if (imgTwoId > 0) {
-                imgSecond.setImageResource(imgTwoId);
-            }
+//            imgOneId = savedInstanceState.getInt(IMAGE_ONE_ID);
+//            imgTwoId = savedInstanceState.getInt(IMAGE_TWO_ID);
+//            if (imgOneId > 0) {
+//                imgFirst.setImageResource(imgOneId);
+//            }
+//            if (imgTwoId > 0) {
+//                imgSecond.setImageResource(imgTwoId);
+//            }
 
             HistoryItem[] historyArray = (HistoryItem[]) savedInstanceState.getSerializable(HISTORY);
             history = new ArrayList<>(Arrays.asList(historyArray));
@@ -82,9 +83,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupViewDependencies(){
-        imgFirst = findViewById(R.id.imgFirst);
-        imgSecond = findViewById(R.id.imgSecond);
+//        imgFirst = findViewById(R.id.imgFirst);
+//        imgSecond = findViewById(R.id.imgSecond);
+        llDiceUpper = findViewById(R.id.llDicesUpper);
+        llDiceLower = findViewById(R.id.llDicesLower);
         Button rollBtn = findViewById(R.id.btnRoll);
+        nrPick = findViewById(R.id.nrPicker);
+        nrPick.setMinValue(1);
+        nrPick.setMaxValue(6);
+        nrPick.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                createDiceImagesViews(newVal);
+            }
+        });
+        createDiceImagesViews(1);
         rollBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -100,21 +113,68 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void rollDices(){
-        int number1 = random.nextInt(NUMBER_OF_DICE_SIDES) + 1;
-        int number2 = random.nextInt(NUMBER_OF_DICE_SIDES) + 1;
-
-        setImages(number1, number2);
-
-        int[] results = {number1, number2};
-        history.add(new HistoryItem(results, new Date()));
+    private void createDiceImagesViews(int numberOfDice) {
+        emptyViews();
+        diceImageViews = new ImageView[numberOfDice];
+        for(int i = 0; i < numberOfDice; i++){
+            diceImageViews[i] = new ImageView(this);
+        }
+        setDicesOnView();
     }
 
-    private void setImages(int number1, int number2) {
-        imgOneId = imageHelper.getImageId(number1); //For state management
-        imgFirst.setImageResource(imgOneId);
-        imgTwoId = imageHelper.getImageId(number2); //For state management
-        imgSecond.setImageResource(imgTwoId);
+    private void emptyViews(){
+            llDiceLower.removeAllViews();
+            llDiceUpper.removeAllViews();
+    }
+
+    private void setUpDiceImageView(ImageView diceImageView) {
+        diceImageView.getLayoutParams().height = 150;
+        diceImageView.getLayoutParams().width = 150;
+        ((ViewGroup.MarginLayoutParams) diceImageView.getLayoutParams()).leftMargin = 3;
+        ((ViewGroup.MarginLayoutParams) diceImageView.getLayoutParams()).rightMargin = 3;
+    }
+
+    private void setDicesOnView() {
+        if (diceImageViews.length < 4){
+            for (ImageView diceView : diceImageViews) {
+                llDiceUpper.addView(diceView);
+            }
+        }else if(diceImageViews.length == 4){
+            for (int i = 0; i < 4; i ++){
+                if (i < 2){
+                    llDiceUpper.addView(diceImageViews[i]);
+                }else{
+                    llDiceLower.addView(diceImageViews[i]);
+                }
+            }
+        }else{
+            for (int i = 0; i < diceImageViews.length; i ++){
+                if (i < 3){
+                    llDiceUpper.addView(diceImageViews[i]);
+                }else{
+                    llDiceLower.addView(diceImageViews[i]);
+                }
+            }
+        }
+    }
+
+    private void rollDices(){
+
+        int[] numbers = new int[diceImageViews.length];
+
+        for(int i = 0; i < diceImageViews.length; i ++){
+            numbers[i] = random.nextInt(NUMBER_OF_DICE_SIDES) + 1;
+            setUpDiceImageView(diceImageViews[i]);
+        }
+
+        setImages(numbers);
+        history.add(new HistoryItem(numbers, new Date()));
+    }
+
+    private void setImages(int[] numbers) {
+        for(int i = 0; i < diceImageViews.length; i++){
+            diceImageViews[i].setImageResource(imageHelper.getImageId(numbers[i]));
+        }
     }
 
     private void goToHistory(){
