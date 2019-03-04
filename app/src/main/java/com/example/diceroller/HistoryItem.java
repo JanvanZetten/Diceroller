@@ -5,8 +5,8 @@ import java.util.Arrays;
 import java.util.Date;
 
 public class HistoryItem implements Serializable {
-    int[] values;
-    Date timestamp;
+    private int[] values;
+    private Date timestamp;
 
     public HistoryItem(int[] values, Date timestamp) {
         this.values = values;

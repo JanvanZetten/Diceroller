@@ -10,7 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 public class HistoryAdapter extends ArrayAdapter<HistoryItem> {
     private int Cellresource;
@@ -40,7 +39,6 @@ public class HistoryAdapter extends ArrayAdapter<HistoryItem> {
             v = li.inflate(this.Cellresource, null);
         }
 
-
         HistoryItem historyItem = historyItems[position];
 
         TextView historyView = v.findViewById(R.id.txtHistory);
@@ -50,16 +48,13 @@ public class HistoryAdapter extends ArrayAdapter<HistoryItem> {
 
         LinearLayout llHistoryItem = v.findViewById(R.id.llHistoryItem);
         llHistoryItem.removeAllViews();
-        for (int value: historyItem.values) {
+        for (int value: historyItem.getValues()) {
             ImageView imgView = new ImageView(_context);
             imgView.setImageResource(imageHelper.getImageId(value));
             llHistoryItem.addView(imgView);
             setUpDiceImageView(imgView);
         }
-
-
         return v;
-
     }
 
     private void setUpDiceImageView(ImageView diceImageView) {

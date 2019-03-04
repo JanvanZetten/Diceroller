@@ -21,8 +21,6 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String IMAGE_ONE_ID = "imageOneId";
-    private static final String IMAGE_TWO_ID = "imageTwoId";
     private static final String HISTORY = "history";
     private static final int HISTORY_REQUEST_CODE = 1;
     private static final int NUMBER_OF_DICE_SIDES = 6;
@@ -31,12 +29,8 @@ public class MainActivity extends AppCompatActivity {
     private final LayoutHelper layoutHelper = new LayoutHelper(this);
     private final Random random = new Random();
 
-//    private int imgOneId = -1;
-//    private int imgTwoId = -1;
     private List<HistoryItem> history;
 
-//    private ImageView imgFirst;
-//    private ImageView imgSecond;
     private ImageView[] diceImageViews;
     private NumberPicker nrPick;
     private LinearLayout llDiceUpper;
@@ -57,23 +51,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle state)
     {
         super.onSaveInstanceState(state);
-        //state.putInt(IMAGE_ONE_ID, imgOneId);
-        //state.putInt(IMAGE_TWO_ID, imgTwoId);
         state.putSerializable(HISTORY, history.toArray(new HistoryItem[0]));
     }
 
     private void loadState(Bundle savedInstanceState) {
         if (savedInstanceState != null)
         {
-//            imgOneId = savedInstanceState.getInt(IMAGE_ONE_ID);
-//            imgTwoId = savedInstanceState.getInt(IMAGE_TWO_ID);
-//            if (imgOneId > 0) {
-//                imgFirst.setImageResource(imgOneId);
-//            }
-//            if (imgTwoId > 0) {
-//                imgSecond.setImageResource(imgTwoId);
-//            }
-
             HistoryItem[] historyArray = (HistoryItem[]) savedInstanceState.getSerializable(HISTORY);
             history = new ArrayList<>(Arrays.asList(historyArray));
         }
@@ -83,8 +66,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupViewDependencies(){
-//        imgFirst = findViewById(R.id.imgFirst);
-//        imgSecond = findViewById(R.id.imgSecond);
         llDiceUpper = findViewById(R.id.llDicesUpper);
         llDiceLower = findViewById(R.id.llDicesLower);
         Button rollBtn = findViewById(R.id.btnRoll);
