@@ -42,8 +42,8 @@ public class HistoryAdapter extends ArrayAdapter<HistoryItem> {
         HistoryItem historyItem = historyItems[position];
 
         TextView historyView = v.findViewById(R.id.txtHistory);
-        String time = new SimpleDateFormat("dd/MM HH:mm:ss").format(historyItem.getTimestamp());
-        String historyText = "rolled on: " + time + " ";
+        String time = new SimpleDateFormat("HH:mm:ss").format(historyItem.getTimestamp());
+        String historyText = " " + time + ": ";
         historyView.setText(historyText);
 
         LinearLayout llHistoryItem = v.findViewById(R.id.llHistoryItem);

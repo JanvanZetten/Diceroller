@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String HISTORY = "history";
     private static final int HISTORY_REQUEST_CODE = 1;
     private static final int NUMBER_OF_DICE_SIDES = 6;
+    private static final String PICKER_VALUE = "picker_state";
+    private static final String STATE_CHANGED = "changed";
 
     private final ImageHelper imageHelper = new ImageHelper();
     private final LayoutHelper layoutHelper = new LayoutHelper(this);
@@ -35,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private NumberPicker nrPick;
     private LinearLayout llDiceUpper;
     private LinearLayout llDiceLower;
+    private boolean pickerChanged;
 
 
     @Override
@@ -52,17 +55,36 @@ public class MainActivity extends AppCompatActivity {
     {
         super.onSaveInstanceState(state);
         state.putSerializable(HISTORY, history.toArray(new HistoryItem[0]));
+        state.putInt(PICKER_VALUE, nrPick.getValue());
+        state.putBoolean(STATE_CHANGED, pickerChanged);
     }
 
     private void loadState(Bundle savedInstanceState) {
         if (savedInstanceState != null)
         {
-            HistoryItem[] historyArray = (HistoryItem[]) savedInstanceState.getSerializable(HISTORY);
-            history = new ArrayList<>(Arrays.asList(historyArray));
+                HistoryItem[] historyArray = (HistoryItem[]) savedInstanceState.getSerializable(HISTORY);
+                history = new ArrayList<>(Arrays.asList(historyArray));
+                if (!savedInstanceState.getBoolean(STATE_CHANGED) && history.size() > 0) {
+                    setDiceFromLatestHistory();
+                }else{
+                    createDiceImagesViews(savedInstanceState.getInt(PICKER_VALUE));
+                }
+
+            nrPick.setValue(savedInstanceState.getInt(PICKER_VALUE));
+
         }
         else {
             history = new ArrayList<>();
         }
+    }
+
+    private void setDiceFromLatestHistory() {
+        int[] values = history.get(history.size() - 1).getValues();
+        createDiceImagesViews(values.length);
+        for(int i = 0; i < diceImageViews.length; i ++){
+            setUpDiceImageView(diceImageViews[i]);
+        }
+        setImages(values);
     }
 
     private void setupViewDependencies(){
@@ -95,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void createDiceImagesViews(int numberOfDice) {
+        pickerChanged = true;
         emptyViews();
         diceImageViews = new ImageView[numberOfDice];
         for(int i = 0; i < numberOfDice; i++){
@@ -140,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void rollDices(){
-
+        pickerChanged = false;
         int[] numbers = new int[diceImageViews.length];
 
         for(int i = 0; i < diceImageViews.length; i ++){

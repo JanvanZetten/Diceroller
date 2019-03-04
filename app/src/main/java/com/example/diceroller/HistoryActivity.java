@@ -23,7 +23,6 @@ public class HistoryActivity extends AppCompatActivity {
         actionsSetup();
         setInitialState();
         loadState(savedInstanceState);
-
     }
 
     private void loadState(Bundle savedInstanceState) {
@@ -33,6 +32,7 @@ public class HistoryActivity extends AppCompatActivity {
                 historyItems = new HistoryItem[0];
                 fillHistoryListView();
             }
+
         }
     }
 

@@ -26,24 +26,38 @@
         android:layout_marginTop="3dp">
     </LinearLayout>
 
-    <NumberPicker
-        android:id="@+id/nrPicker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
-       />
-
-    <Button
-        android:id="@+id/btnRoll"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Roll"
-        android:layout_gravity="bottom"/>
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/btnGoToHistory"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/history_button_text"
-        android:layout_gravity="bottom"/>
+        <NumberPicker
+            app:layout_constraintBottom_toTopOf="@id/btnRoll"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:id="@+id/nrPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+        <Button
+            app:layout_constraintBottom_toTopOf="@id/btnGoToHistory"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:id="@+id/btnRoll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/roll_button_text"
+            />
+
+        <Button
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:id="@+id/btnGoToHistory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/history_button_text"
+            />
+
+    </android.support.constraint.ConstraintLayout>
 </LinearLayout>
