@@ -39,7 +39,7 @@ public class HistoryAdapter extends ArrayAdapter<HistoryItem> {
             v = li.inflate(this.Cellresource, null);
         }
 
-        HistoryItem historyItem = historyItems[position];
+        HistoryItem historyItem = historyItems[historyItems.length - 1 - position];
 
         TextView historyView = v.findViewById(R.id.txtHistory);
         String time = new SimpleDateFormat("HH:mm:ss").format(historyItem.getTimestamp());

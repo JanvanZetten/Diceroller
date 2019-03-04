@@ -70,6 +70,7 @@ public class HistoryActivity extends AppCompatActivity {
     }
 
     private void fillHistoryListView() {
+
         historyView.setAdapter(new HistoryAdapter(this, historyItems));
     }
 
