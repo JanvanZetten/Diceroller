@@ -49,6 +49,7 @@ public class HistoryAdapter extends ArrayAdapter<HistoryItem> {
         historyView.setText(historyText);
 
         LinearLayout llHistoryItem = v.findViewById(R.id.llHistoryItem);
+        llHistoryItem.removeAllViews();
         for (int value: historyItem.values) {
             ImageView imgView = new ImageView(_context);
             imgView.setImageResource(imageHelper.getImageId(value));
